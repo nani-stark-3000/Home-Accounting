@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="records-container">
+    <h2>{{ record_type.capitalize() }} Records</h2>
+    
+    <!-- Filter Section -->
+    <div class="filter-container">
+        <label for="filter-date">Filter by Date:</label>
+        <input type="date" id="filter-date" onchange="filterRecords()">
+
+        <label for="filter-category">Filter by Category:</label>
+        <select id="filter-category" onchange="filterRecords()">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category.name }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Records List -->
+    {% for record in records %}
+    <div class="card" data-date="{{ record.date }}" data-category="{{ record.category.name }}">
+        <h3>{{ record.purpose }}</h3>
+        <p>Amount: ₹{{ record.amount }}</p>
+        <p>Category: {{ record.category.name }}</p>
+        <p>Account: {{ record.account.name }}</p>
+        <p>Date: {{ record.date }}</p>
+        <div class="card-actions">
+            <a href="/edit_record/{{ record_type }}/{{ record.id }}" class="btn">Edit</a>
+            <form action="/delete_record/{{ record_type }}/{{ record.id }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn danger">Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- JavaScript for Filtering -->
+<script>
+function filterRecords() {
+    const selectedDate = document.getElementById('filter-date').value;
+    const selectedCategory = document.getElementById('filter-category').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        const cardDate = card.getAttribute('data-date');
+        const cardCategory = card.getAttribute('data-category').toLowerCase();
+
+        const matchDate = !selectedDate || cardDate === selectedDate;
+        const matchCategory = !selectedCategory || cardCategory === selectedCategory;
+
+        if (matchDate && matchCategory) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+
+{% endblock %}

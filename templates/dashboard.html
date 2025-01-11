@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Dashboard</h2>
+
+    <div class="button-grid">
+        <!-- Add Income -->
+        <a href="{{ url_for('add_record', record_type='income') }}" class="dashboard-card">
+            <i class="fas fa-wallet icon"></i>
+            <span>Add Income</span>
+        </a>
+
+        <!-- Add Expense -->
+        <a href="{{ url_for('add_record', record_type='expense') }}" class="dashboard-card">
+            <i class="fas fa-money-bill-wave icon"></i>
+            <span>Add Expense</span>
+        </a>
+
+        <!-- Manage Accounts -->
+        <a href="{{ url_for('manage_accounts') }}" class="dashboard-card">
+            <i class="fas fa-university icon"></i>
+            <span>Manage Accounts</span>
+        </a>
+
+        <!-- Manage Categories -->
+        <a href="{{ url_for('manage_categories') }}" class="dashboard-card">
+            <i class="fas fa-layer-group icon"></i>
+            <span>Manage Categories</span>
+        </a>
+
+        <!-- View Income Records -->
+        <a href="/manage_records/income" class="dashboard-card">
+            <i class="fas fa-chart-line icon"></i>
+            <span>View Incomes</span>
+        </a>
+
+        <!-- View Expense Records -->
+        <a href="/manage_records/expense" class="dashboard-card">
+            <i class="fas fa-chart-pie icon"></i>
+            <span>View Expenses</span>
+        </a>
+
+        <!-- Daily Report -->
+        <a href="{{ url_for('daily_report') }}" class="dashboard-card">
+            <i class="fas fa-calendar-day icon"></i>
+            <span>Daily Report</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

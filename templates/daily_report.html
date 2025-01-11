@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="report-container">
+    <h2>Daily Report - {{ selected_date }}</h2>
+    <form method="GET" action="/daily_report">
+        <input type="date" name="date" value="{{ selected_date }}">
+        <button type="submit" class="btn">View Report</button>
+    </form>
+
+    <div class="report-sections">
+        <div class="report-section">
+            <h3>Income</h3>
+            <div class="record-list">
+                {% for income in incomes %}
+                    <div class="record-item">
+                        ₹{{ income.amount }} - {{ income.purpose }} ({{ income.account.name }})
+                    </div>
+                {% else %}
+                    <p>No income records for this date.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h3>Expenses</h3>
+            <div class="record-list">
+                {% for expense in expenses %}
+                    <div class="record-item">
+                        ₹{{ expense.amount }} - {{ expense.purpose }} ({{ expense.account.name }})
+                    </div>
+                {% else %}
+                    <p>No expense records for this date.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="report-section net-values">
+        <h3>Net Values</h3>
+        <table>
+            <tr>
+                <th>Account</th>
+                <th>Available Balance (₹)</th>
+            </tr>
+            {% for account, balance in net_values.items() %}
+            <tr>
+                <td>{{ account }}</td>
+                <td>{{ balance }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<style>
+    .report-container {
+        width: 90%;
+        margin: auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .report-sections {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+    .report-section {
+        width: 48%;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+    .net-values {
+        margin-top: 20px;
+    }
+    .record-item {
+        background-color: #eaf7ea;
+        padding: 10px;
+        margin-bottom: 8px;
+        border-radius: 5px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .btn {
+        padding: 8px 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}

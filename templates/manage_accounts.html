@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Manage Accounts</h2>
+
+    <!-- Add Account Form -->
+    <form method="POST" action="/accounts">
+        <div class="form-group">
+            <label for="name">Account Name:</label>
+            <input type="text" name="name" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="holder">Account Holder:</label>
+            <input type="text" name="holder" id="holder" required>
+        </div>
+        <div class="form-group">
+            <label for="particulars">Particulars:</label>
+            <textarea name="particulars" id="particulars" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="amount">Opening Balance:</label>
+            <input type="number" step="0.01" name="amount" id="amount" required>
+        </div>
+        <button type="submit" class="btn">Add Account</button>
+    </form>
+
+    <hr>
+
+    <!-- Account List -->
+    <h3>Existing Accounts</h3>
+    <div class="records-container">
+        {% for account in accounts %}
+        <div class="card">
+            <p><strong>Name:</strong> {{ account.name }}</p>
+            <p><strong>Holder:</strong> {{ account.holder }}</p>
+            <p><strong>Balance:</strong> ₹{{ account.amount }}</p>
+            <p><strong>Particulars:</strong> {{ account.particulars or "N/A" }}</p>
+            <form method="POST" action="/delete_account/{{ account.id }}">
+                <button type="submit" class="btn danger">Delete</button>
+            </form>
+        </div>
+        {% else %}
+        <p>No accounts found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

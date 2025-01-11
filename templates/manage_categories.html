@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Manage Categories</h2>
+
+    <!-- Add Category Form -->
+    <form method="POST" action="/categories">
+        <div class="form-group">
+            <label for="name">Category Name:</label>
+            <input type="text" name="name" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="type">Category Type:</label>
+            <select name="type" id="type" required>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+        </div>
+        <button type="submit" class="btn">Add Category</button>
+    </form>
+
+    <hr>
+
+    <!-- Income Categories -->
+    <h3>Income Categories</h3>
+    <div class="records-container">
+        {% set income_categories = categories | selectattr('type', 'equalto', 'income') | list %}
+        {% if income_categories %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in income_categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <form method="POST" action="/delete_category/{{ category.id }}" style="display:inline;">
+                                <button type="submit" class="btn danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No income categories found.</p>
+        {% endif %}
+    </div>
+
+    <hr>
+
+    <!-- Expense Categories -->
+    <h3>Expense Categories</h3>
+    <div class="records-container">
+        {% set expense_categories = categories | selectattr('type', 'equalto', 'expense') | list %}
+        {% if expense_categories %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in expense_categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <form method="POST" action="/delete_category/{{ category.id }}" style="display:inline;">
+                                <button type="submit" class="btn danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No expense categories found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
