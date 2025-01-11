@@ -5,7 +5,12 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgres://neondb_owner:FRo4qLcCU8en@ep-weathered-fire-a66qbg2p-pooler.us-west-2.aws.neon.tech/neondb?sslmode=require')
+
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://neondb_owner:FRo4qLcCU8en@ep-weathered-fire-a66qbg2p-pooler.us-west-2.aws.neon.tech/neondb?sslmode=require')
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
