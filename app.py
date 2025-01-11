@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
 import os
 
@@ -56,7 +57,7 @@ class DailySnapshot(db.Model):
     date = db.Column(db.String(10), unique=True, nullable=False)
     total_income = db.Column(db.Float, nullable=False)
     total_expense = db.Column(db.Float, nullable=False)
-    net_balances = db.Column(db.PickleType, nullable=False)  # Stores account balances
+    net_balances = db.Column(JSON, nullable=False) # Stores account balances
 
 # Function to save daily snapshot automatically
 def save_daily_snapshot():
