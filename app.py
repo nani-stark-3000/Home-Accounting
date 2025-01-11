@@ -78,9 +78,6 @@ def save_daily_snapshot():
 def dashboard():
     return render_template('dashboard.html')
 
-from flask import render_template, request, redirect, url_for, flash
-from datetime import datetime
-
 @app.route('/add_record/<record_type>', methods=['GET', 'POST'])
 def add_record(record_type):
     if record_type not in ['income', 'expense']:
